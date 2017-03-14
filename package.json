@@ -1,10 +1,12 @@
 {
-  "name": "greenfieldproject",
+  "name": "roadchip",
   "version": "1.0.0",
   "description": "roadtrip travel planning app for greenfield project hr73",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server/index.js",
+    "build": "./node_modules/.bin/webpack",
+    "dev": "npm run build && npm start"
   },
   "repository": {
     "type": "git",
@@ -13,7 +15,8 @@
   "keywords": [
     "greenfield",
     "hack",
-    "reactor"
+    "reactor",
+    "roadchip"
   ],
   "author": "Andy Yeo, Keith Alpichi, Jason Chang, Enoch Kim",
   "license": "ISC",
@@ -22,10 +25,21 @@
   },
   "homepage": "https://github.com/audaciousamphibians/audaciousamphibians#readme",
   "dependencies": {
+    "body-parser": "^1.17.1",
     "express": "^4.15.2",
-    "passport": "^0.3.2"
+    "mysql": "^2.13.0",
+    "passport": "^0.3.2",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-react": "^6.23.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "nodemon": "^1.11.0",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.2"
   }
 }
