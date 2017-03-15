@@ -25,19 +25,19 @@ app.post('/signup', function(req, res) {
 
 });
 
-app.get('/users', function(req, res) {
+app.get('/users/:user_id', function(req, res) {
 
 });
 
-app.get('/users/trips', function(req, res) {
+app.get('/users/:user_id/trips', function(req, res) {
 
 });
 
-app.route('/users/trips/:id')
+app.route('/users/:user_id/trips/:trip_id')
   .get(function(req, res) {
     // req.params = { id: 'USER_ID' }
-    console.log(req.params.id);
-    res.send('GET-----/users/trips/:id route');
+    console.log(req.params.user_id);
+    res.send('GET-----/users/:user_id/trips/:trip_id');
   })
   .post(function(req, res) {
 
@@ -49,11 +49,11 @@ app.route('/users/trips/:id')
 
   });
 
-app.get('/users/places', function(req, res) {
+app.get('/users/:user_id/places', function(req, res) {
 
 });
 
-app.route('/users/places/:id')
+app.route('/users/:user_id/places/:trip_id')
   .get(function(req, res) {
     // req.params = { id: 'USER_ID' }
   })
