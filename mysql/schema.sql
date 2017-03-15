@@ -5,35 +5,42 @@ CREATE DATABASE roadchip;
 USE roadchip;
 
 CREATE TABLE users (
-	id AUTO_INCREMENT,
-	username VARCHAR(32);
-	password VARCHAR(32);
-	email VARCHAR(64);
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	username VARCHAR(32),
+	password VARCHAR(32),
+	email VARCHAR(64)
 );
 
 CREATE TABLE trips (
-	id AUTO_INCREMENT,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	title VARCHAR(64),
 	date DATE,
-	start_address VARCHAR(64),
-	end_address VARCHAR(64),
-	user_id FOREIGN KEY (users.id) REFERENCES users(id)
+	start_address VARCHAR(100),
+	end_address VARCHAR(100),
+	user_id INT,
+	FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE places (
-	id AUTO_INCREMENT,
-	place_id VARCHAR(64),
-	name VARCHAR(32),
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(64),
 	lat INT,
-	long INT,
+	lng INT,
+	place_id VARCHAR(64),
 	image_id VARCHAR(64)
 );
 
 CREATE TABLE categories (
-
-
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(32)
 );
 
 CREATE TABLE trips_places (
-
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	trip_id INT,
+	place_id INT,
+	categories_id INT,
+	FOREIGN KEY (trip_id) REFERENCES trips(id),
+	FOREIGN KEY (place_id) REFERENCES places(id),
+	FOREIGN KEY (categories_id) REFERENCES categories(id)
 );
