@@ -8,7 +8,9 @@ class POI extends React.Component {
   render() {
     return(
       <div>
-        ENOCH
+        <input type="text" placeholder="Start"></input>
+        <input type="text" placeholder="Finish"></input>
+        <Link className="search" to="/trippage">Search</Link>
       </div>
     )
   }

@@ -1,5 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Login from './login.js'
+import Signup from './signup.js'
+import { Route, Link } from 'react-router-dom'
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -10,10 +12,8 @@ class NavBar extends React.Component {
     return(
       <div>
         <h1>RoadChip</h1>
-        <Link className="login" to="/login">Login</Link>
-        <input type="text" placeholder="Start"></input>
-        <input type="text" placeholder="Finish"></input>
-        <Link className="search" to="/trippage">Search</Link>
+        <Login />
+        <Signup />
       </div>
     )
   }
