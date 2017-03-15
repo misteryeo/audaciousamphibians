@@ -27,6 +27,7 @@
   "homepage": "https://github.com/audaciousamphibians/audaciousamphibians#readme",
   "dependencies": {
     "body-parser": "^1.17.1",
+    "crypto": "0.0.3",
     "express": "^4.15.2",
     "mysql": "^2.13.0",
     "passport": "^0.3.2",
