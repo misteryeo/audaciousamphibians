@@ -4,10 +4,11 @@ var webpack = require('webpack');
 module.exports = {
   entry: "./client/index.js",
   output: {
-    path: path.resolve(_dirname, 'build'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'index.js'
   },
-  devtool: "inline-source-map",
+  watch: true,
+  devtool: "source-map",
   devServer: {
     contentBase: path.join(__dirname, "app/static"),
     filename: "index.js",
