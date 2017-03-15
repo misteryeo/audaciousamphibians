@@ -7,9 +7,9 @@ class LandingPage extends React.Component {
 
   render() {
     return(
-      <div>
-        <input type="text" placeholder="Start"></input>
-        <input type="text" placeholder="Finish"></input>
+      <div id="landingpage">
+        <input class="start" type="text" placeholder="Start"></input>
+        <input class="finish" type="text" placeholder="Finish"></input>
         <button>Search</button>
       </div>
     )

@@ -7,7 +7,7 @@ class Map extends React.Component {
 
   render() {
     return(
-      <div>
+      <div id="map">
         {/* Insert map */}
       </div>
     )
