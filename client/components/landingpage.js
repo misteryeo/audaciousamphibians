@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 class LandingPage extends React.Component {
   constructor(props) {
@@ -8,9 +9,9 @@ class LandingPage extends React.Component {
   render() {
     return(
       <div id="landingpage">
-        <input class="start" type="text" placeholder="Start"></input>
-        <input class="finish" type="text" placeholder="Finish"></input>
-        <button>Search</button>
+        <input className="start" type="text" placeholder="Start"></input>
+        <input className="finish" type="text" placeholder="Finish"></input>
+        <Link className="search" to="/trippage">Search</Link>
       </div>
     )
   }

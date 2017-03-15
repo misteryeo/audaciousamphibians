@@ -1,6 +1,6 @@
 import React from 'react'
 
-class Map extends React.Component {
+class MapPage extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -8,10 +8,10 @@ class Map extends React.Component {
   render() {
     return(
       <div id="map">
-        {/* Insert map */}
+        
       </div>
     )
   }
 }
 
-export default Map
+export default MapPage

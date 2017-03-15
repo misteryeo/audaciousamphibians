@@ -1,4 +1,7 @@
 import React from 'react'
+import NavBar from './navbar.js'
+import { Route } from 'react-router-dom'
+import TripPage from './trippage.js'
 import LandingPage from './landingpage.js'
 
 class App extends React.Component {
@@ -9,8 +12,9 @@ class App extends React.Component {
   render() {
     return(
       <div>
-        <h1>RoadChip</h1>
-        <LandingPage />
+        <NavBar />
+        <Route path="/" component={LandingPage} />
+        <Route path="/trippage" component={TripPage} />
       </div>
     )
   }
