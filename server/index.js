@@ -104,6 +104,7 @@ app.get('/users/:user_id/trips', function(req, res) {
   db.query('SELECT * FROM trips WHERE user_id = ?', [userId], function(err, results, fields) {
     if (err) {
       console.log(err);
+      res.send(err);
     } else {
       res.send(results);
     }
@@ -116,6 +117,19 @@ app.route('/users/:user_id/trips/:trip_id')
   // SELECT a specific trip
   .get(function(req, res) {
     // req.params = { id: 'USER_ID' }
+    var userId = req.params.user_id;
+    var tripId = req.params.trip_id;
+
+
+    db.query('SELECT * FROM trips WHERE user_id = ? AND id = ?', [userId, tripId], function(err, results, fields) {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        res.send(results[0]);
+      }
+    });
+
   })
   // INSERT a trip
   .post(function(req, res) {
