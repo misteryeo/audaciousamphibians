@@ -177,6 +177,47 @@ app.route('/users/:user_id/trips/:trip_id/places')
   })
   // INSERT place into a specific trip
   .post(function(req, res) {
+    var tripId = req.params.trip_id;
+    var placeName = req.body.name;
+    var placeId = req.body.place_id; // this is the google places id we get from the API
+    var lat = req.body.lat;
+    var lng = req.body.lng;
+    var imageId = req.body.image_id;
+
+
+    db.query('SELECT * FROM places WHERE place_id = ?', [placeId], function(err, results, fields) {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        // if no record of place in places table
+        if (results.length === 0) {
+          // insert place into places table
+          db.query('INSERT INTO places (name, lat, lng, place_id, image_id) VALUES (?, ?, ?, ?, ?)', [placeName, lat, lng, placeId, imageId], function(err, results, fields) {
+            if (err) {
+              console.log(err);
+              res.send(err);
+            } else {
+              db.query('SELECT * FROM places WHERE place_id = ?', [placeId], function(err, results, fields) {
+                var newPlaceId = results[0].id;
+                db.query('INSERT INTO trips_places (trip_id, place_id) VALUES (?,?)', [tripId, newPlaceId], function(err, response, fields) {
+                  res.send('place created and added to trip');
+                });
+              });
+            }
+          });
+        } else {
+          db.query('INSERT INTO trips_places (trip_id, place_id) VALUES (?,?)', [tripId, results[0].id], function(err, results, fields) {
+            if (err) {
+              console.log(err);
+              res.send(err);
+            } else {
+              res.send('added to trip');
+            }
+          });
+        }
+      }
+    });
 
   });
   // PUT not needed
