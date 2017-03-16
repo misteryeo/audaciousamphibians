@@ -136,11 +136,22 @@ app.route('/users/:user_id/trips/:trip_id')
 
   })
   // UPDATE trip -> trips_places -> places
-  .put(function(req, res) {
+  // commented out because redundancy below
+  // .put(function(req, res) {
 
-  })
+  // })
   // DELETE a trip
   .delete(function(req, res) {
+    var tripId = req.params.trip_id;
+
+    db.query('DELETE FROM trips WHERE id = ?', [tripId], function(err, results, fields) {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        res.send('trip deleted');
+      }
+    });
 
   });
 
@@ -152,18 +163,31 @@ app.route('/users/:user_id/trips/:trip_id')
 app.route('/users/:user_id/trips/:trip_id/places')
   // return all places for a specific trip
   .get(function(req, res) {
-    // req.params = { id: 'USER_ID' }
+    var tripId = req.params.trip_id;
+
+    db.query('SELECT places.* FROM places, trips_places WHERE trips_places.trip_id = ? AND trips_places.place_id = places.id', [tripId], function(err, results, fields) {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        res.send(results);
+      }
+    });
+
   })
   // INSERT place into a specific trip
   .post(function(req, res) {
 
-  })
+  });
   // PUT not needed
   // .put(function(req, res) {
 
   // })
+
+
+
   // DELETE a place from a trip
-  .delete(function(req, res) {
+  app.delete('/users/:user_id/trips/:trip_id/places/:place_id', function(req, res) {
 
   });
 
