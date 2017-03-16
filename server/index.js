@@ -80,7 +80,7 @@ app.post('/signup', function(req, res) {
         // insert username, hashed pw, salt, email
         db.query('INSERT INTO users (username, password, salt, email) VALUES (?, ?, ?, ?)', [username, hash, salt, email], function(err, results, fields) {
             if (err) {
-              console.log('******************', err);
+              console.log(err);
               res.send(err);
             } else {
               res.send('added user');
@@ -97,6 +97,18 @@ app.post('/signup', function(req, res) {
 
 // return list of a user's trips
 app.get('/users/:user_id/trips', function(req, res) {
+  var userId = req.params.user_id;
+
+  // query database for trips where trips.user_id = userId
+
+  db.query('SELECT * FROM trips WHERE user_id = ?', [userId], function(err, results, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(results);
+    }
+  });
+
 
 });
 
@@ -104,8 +116,6 @@ app.route('/users/:user_id/trips/:trip_id')
   // SELECT a specific trip
   .get(function(req, res) {
     // req.params = { id: 'USER_ID' }
-    console.log(req.params.user_id);
-    res.send('GET-----/users/:user_id/trips/:trip_id');
   })
   // INSERT a trip
   .post(function(req, res) {
