@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link, Route } from 'react-router-dom'
 import Login from './login.js'
 import Signup from './signup.js'
 
@@ -11,8 +12,8 @@ class NavBar extends React.Component {
     return(
       <div>
         <h1>RoadChip</h1>
-        <Login />
-        <Signup />
+        <Link to="/signup">Sign Up</Link>
+        <Link to="/login">Login</Link>
       </div>
     )
   }

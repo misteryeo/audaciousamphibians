@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link, Route } from 'react-router-dom'
 
 class Login extends React.Component {
   constructor(props) {
@@ -8,9 +9,9 @@ class Login extends React.Component {
   render() {
     return(
       <div>
-      Username: <input></input>
-      Password: <input></input>
-      <button onClick={() => console.log('clicked')}>Login</button>
+        <input placeholder="Username"></input>
+        <input placeholder="Password"></input>
+        <button>Login</button>
       </div>
     )
   }
