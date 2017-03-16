@@ -11,9 +11,9 @@ connection.connect(function(err) {
 	if (err) {
 		console.log(err);
 	} else {
-		console.log('Connected to roadchip database sucessful!');
+		console.log('Connected to roadchip database successful!');
 	}
 });
 
-module.exports = connection;	
+module.exports = connection;
 

@@ -7,7 +7,8 @@ USE roadchip;
 CREATE TABLE users (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	username VARCHAR(32),
-	password VARCHAR(32),
+	password VARCHAR(64),
+	salt INT,
 	email VARCHAR(64)
 );
 

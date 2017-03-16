@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path')
 var crypto = require('crypto');
+var db = require('../mysql/index.js');
 
 var app = express();
 
@@ -13,9 +14,41 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/../build'));
 
 
+// sample data from query to /login:
+// [
+//   {
+//     "id": 1,
+//     "username": "keith123",
+//     "password": "ilovekeith",
+//     "salt": 456,
+//     "email": "keith@email.com"
+//   }
+// ]
+
 
 // checks username & pw in db to authenticate
 app.post('/login', function(req, res) {
+  var username = req.body.username;
+  var pw = req.body.password;
+
+  db.query('SELECT * FROM users WHERE username = ?', [username], function(err, results, fields) {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    } else {
+      // add salt to pw then hash
+      var hash = crypto.createHmac('sha256', results[0].salt)
+        .update(pw)
+        .digest('hex');
+      // check to see if hash === password from db
+      if (hash === results[0].password) {
+        res.send('success');
+      } else {
+        res.send('invalid');
+      }
+    }
+  });
+
 
 });
 
@@ -24,9 +57,38 @@ app.get('/logout', function(req, res) {
 
 });
 
-// creates user and pw in db
+// INSERT user and pw in db
 app.post('/signup', function(req, res) {
+  var username = req.body.username;
+  var pw = req.body.password;
+  var email = req.body.email;
 
+  // query db to see if username exists
+  db.query('SELECT * FROM users WHERE username = ?', [username], function(err, results, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      if (results[0]) {
+        res.send('exists');
+      } else {
+        // generate salt for user
+        var salt = Math.floor(Math.random() * 10000).toString();
+        // hash password+salt
+        var hash = crypto.createHmac('sha256', salt)
+          .update(pw)
+          .digest('hex');
+        // insert username, hashed pw, salt, email
+        db.query('INSERT INTO users (username, password, salt, email) VALUES (?, ?, ?, ?)', [username, hash, salt, email], function(err, results, fields) {
+            if (err) {
+              console.log('******************', err);
+              res.send(err);
+            } else {
+              res.send('added user');
+            }
+        });
+      }
+    }
+  });
 });
 
 
