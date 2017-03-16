@@ -8,7 +8,10 @@ class Signup extends React.Component {
   render() {
     return(
       <div>
-        Sign up component
+        <input placeholder="Username"></input>
+        <input placeholder="Password"></input>
+        <input placeholder="Email"></input>
+        <button>Sign Up</button>
       </div>
     )
   }
