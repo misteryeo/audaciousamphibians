@@ -9,14 +9,28 @@ import Login from './login'
 class App extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      food: false,
+      attractions: false
+    }
+    this.setFilters = this.setFilters.bind(this);
+  }
+
+  setFilters(food, attractions) {
+    alert(food);
+    alert(attractions);
+    this.setState({
+      food: food,
+      attractions: attractions
+    })
   }
 
   render() {
     return(
       <div>
         <NavBar />
-        <Route exact path="/" component={LandingPage}/>
-        <Route path="/trip" component={TripPage}/>
+        <Route exact path="/" component={LandingPage} setFilters={this.setFilters}/>
+        <Route food={this.state.food} attractions={this.state.attractions} path="/trip" component={TripPage}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/login" component={Login}/>
       </div>
