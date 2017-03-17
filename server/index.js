@@ -229,7 +229,17 @@ app.route('/users/:user_id/trips/:trip_id/places')
 
   // DELETE a place from a trip
   app.delete('/users/:user_id/trips/:trip_id/places/:place_id', function(req, res) {
+    var tripId = req.params.trip_id;
+    var placeId = req.params.place_id;
 
+    db.query('DELETE FROM trips_places WHERE trip_id = ? AND place_id = ?', [tripId, placeId], function(err, results, fields) {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        res.send('deleted place from trip');
+      }
+    });
   });
 
 app.get('*', function (req, res) {
