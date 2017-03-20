@@ -42,9 +42,9 @@ app.post('/login', function(req, res) {
         .digest('hex');
       // check to see if hash === password from db
       if (hash === results[0].password) {
-        res.send('success');
+        res.status(201).send('success');
       } else {
-        res.send('invalid');
+        res.status(401).send('invalid credentials');
       }
     }
   });
@@ -64,12 +64,13 @@ app.post('/signup', function(req, res) {
   var email = req.body.email;
 
   // query db to see if username exists
-  db.query('SELECT * FROM users WHERE username = ?', [username], function(err, results, fields) {
+  db.query('SELECT * FROM users WHERE username = ? OR email = ?', [username, email], function(err, results, fields) {
     if (err) {
       console.log(err);
+      res.send(err);
     } else {
       if (results[0]) {
-        res.send('exists');
+        res.status(409).send('username or email taken');
       } else {
         // generate salt for user
         var salt = Math.floor(Math.random() * 10000).toString();
@@ -83,7 +84,7 @@ app.post('/signup', function(req, res) {
               console.log(err);
               res.send(err);
             } else {
-              res.send('added user');
+              res.send(201).send('added user');
             }
         });
       }
@@ -96,22 +97,40 @@ app.post('/signup', function(req, res) {
 // });
 
 // return list of a user's trips
-app.get('/users/:user_id/trips', function(req, res) {
-  var userId = req.params.user_id;
+app.route('/users/:user_id/trips')
 
-  // query database for trips where trips.user_id = userId
+  .get(function(req, res) {
+    var userId = req.params.user_id;
 
-  db.query('SELECT * FROM trips WHERE user_id = ?', [userId], function(err, results, fields) {
-    if (err) {
-      console.log(err);
-      res.send(err);
-    } else {
-      res.send(results);
-    }
+    // query database for trips where trips.user_id = userId
+
+    db.query('SELECT * FROM trips WHERE user_id = ?', [userId], function(err, results, fields) {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        res.send(results);
+      }
+    });
+
+  })
+
+  .post(function(req, res) {
+    var tripTitle = req.body.title;
+    var tripStart = req.body.start_address;
+    var tripEnd = req.body.end_address;
+    var userId = req.params.user_id;
+
+    db.query('INSERT INTO trips (title, start_address, end_address, user_id) VALUES (?, ?, ?, ?)', [tripTitle, tripStart, tripEnd, userId], function(err, results, fields) {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        res.status(201).send('trip created');
+      }
+    });
+
   });
-
-
-});
 
 app.route('/users/:user_id/trips/:trip_id')
   // SELECT a specific trip
@@ -132,9 +151,9 @@ app.route('/users/:user_id/trips/:trip_id')
 
   })
   // INSERT a trip
-  .post(function(req, res) {
-
-  })
+  // .post(function(req, res) {
+  // added to route above
+  // })
   // UPDATE trip -> trips_places -> places
   // commented out because redundancy below
   // .put(function(req, res) {
@@ -201,7 +220,7 @@ app.route('/users/:user_id/trips/:trip_id/places')
               db.query('SELECT * FROM places WHERE place_id = ?', [placeId], function(err, results, fields) {
                 var newPlaceId = results[0].id;
                 db.query('INSERT INTO trips_places (trip_id, place_id) VALUES (?,?)', [tripId, newPlaceId], function(err, response, fields) {
-                  res.send('place created and added to trip');
+                  res.status(201).send('place created and added to trip');
                 });
               });
             }
@@ -212,7 +231,7 @@ app.route('/users/:user_id/trips/:trip_id/places')
               console.log(err);
               res.send(err);
             } else {
-              res.send('added to trip');
+              res.status(201).send('added to trip');
             }
           });
         }
