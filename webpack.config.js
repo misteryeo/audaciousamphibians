@@ -7,7 +7,6 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     filename: 'index.js'
   },
-  watch: true,
   devtool: "source-map",
   devServer: {
     contentBase: path.join(__dirname, "build"),
