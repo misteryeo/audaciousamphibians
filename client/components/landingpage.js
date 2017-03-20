@@ -1,18 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { PropTypes } from 'react'
 
 class LandingPage extends React.Component {
   constructor(props) {
     super(props)
+    this.updateFilters = this.updateFilters.bind(this);
   }
 
   updateFilters(){
     // Get the values of the checkboxes (booleans)
-    console.log(this)
     var food = this.refs.food.checked; //value of checkbox
     var attractions = this.refs.attractions.checked; //value of checkbox
-    this.props.setFilters(food, attractions)
+    this.props.setFilters(food, attractions);
   } 
+
 
   requestRoute() {
    console.log('Sending search request to Google Maps API')
