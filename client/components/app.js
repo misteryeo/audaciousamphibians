@@ -17,8 +17,8 @@ class App extends React.Component {
   }
 
   setFilters(food, attractions) {
-    alert(food);
-    alert(attractions);
+    // alert(food);
+    // alert(attractions);
     this.setState({
       food: food,
       attractions: attractions
@@ -29,7 +29,8 @@ class App extends React.Component {
     return(
       <div>
         <NavBar />
-        <Route exact path="/" component={LandingPage} setFilters={this.setFilters}/>
+        //
+        <Route exact path="/" render={props => (<LandingPage {...props} setFilters={this.setFilters}/>)} />
         <Route food={this.state.food} attractions={this.state.attractions} path="/trip" component={TripPage}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/login" component={Login}/>
