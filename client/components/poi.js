@@ -11,13 +11,13 @@ class POI extends React.Component {
         <div>
           <input type="text" placeholder="Start"></input>
           <input type="text" placeholder="Finish"></input>
-          <button onClick={this.requestRoute}>Search</button>
+          <button>Search</button>
         </div>
         <div>
           {/*}<Link className="search" to="/trippage">Search</Link>*/}
           {
-            this.props.markers.map((entry) => {
-              return (<POIEntry {...entry} key={entry.place_id}/>)
+            this.props.foodMarker.map((entry) => {
+              return (<POIEntry {...entry} key={entry.place_id} setSelectedPOI={this.props.setSelectedPOI}/>)
             })
           }
         </div>
