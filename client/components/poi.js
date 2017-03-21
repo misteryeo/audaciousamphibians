@@ -8,15 +8,19 @@ class POI extends React.Component {
   render() {
     return(
       <div id="poi">
-        <input type="text" placeholder="Start"></input>
-        <input type="text" placeholder="Finish"></input>
-        {/*}<Link className="search" to="/trippage">Search</Link>*/}
-        {
-          this.props.markers.map((entry) => {
-            return (<POIEntry {...entry}/>)
-          })
-        }
-        <button onClick={this.requestRoute}>Search</button>
+        <div>
+          <input type="text" placeholder="Start"></input>
+          <input type="text" placeholder="Finish"></input>
+          <button onClick={this.requestRoute}>Search</button>
+        </div>
+        <div id='poiEntries'>
+          {/*}<Link className="search" to="/trippage">Search</Link>*/}
+          {
+            this.props.markers.map((entry) => {
+              return (<POIEntry {...entry} key={entry.place_id}/>)
+            })
+          }
+        </div>
       </div>
     )
   }
