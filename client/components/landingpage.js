@@ -25,14 +25,19 @@ class LandingPage extends React.Component {
   render() {
     return(
       <div id="landingpage">
-        <input className="start" id="start" ref="start" type="text" placeholder="Start"></input>
-        <input className="finish" id="end" ref="end" type="text" placeholder="Finish"></input>
-        <button className="search" onClick={this.updateFilters}>Search</button>
-        <input ref="food" type="checkbox"></input>
-        <input ref="attractions" type="checkbox"></input>
+      <div className="searchinput">
+        <input className="start" ref="start" type="text" placeholder="Start"></input>
+        <input className="finish" ref="end" type="text" placeholder="Finish"></input>
+        <button className="myButton" onClick={this.updateFilters}>GO</button>
+      </div>
+      <div className="checkbox">
+        <input ref="food" type="checkbox"></input>Food
+        <input ref="attractions" type="checkbox"></input>Attractions
+      </div>
       </div>
     )
   }
 }
 
 export default LandingPage
+ 
