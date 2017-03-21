@@ -1,6 +1,6 @@
 import React from 'react'
 import DrivingGoogleMap from './googleMap'
-import googleAPIKey from '../../keys'
+
 
 class MapPage extends React.Component {
   constructor(props) {
