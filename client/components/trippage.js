@@ -45,15 +45,40 @@ class TripPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      markers: dummyData
+      food: dummyData,
+      attractions: ''
     }
+
+    this.setFood = this.setFood.bind(this);
+    this.setAttractions = this.setAttractions.bind(this);
+  }
+
+  setFood (food) {
+    this.setState({
+      food: food
+    })
+  }
+
+  setAttractions (attractions) {
+    this.setState({
+      attractions: attractions
+    })
   }
 
   render() {
     return(
       <div id="trip">
-        <POI food={this.props.food} attractions={this.props.attractions} markers={this.state.markers}/>
-        <MapPage start={this.props.start} end={this.props.end}/>
+        <POI food={this.props.food} 
+          attractions={this.props.attractions} 
+          foodMarker={this.state.food} 
+          attractionMarker={this.state.attractions}
+        />
+        <MapPage 
+          start={this.props.start} 
+          end={this.props.end}
+          setFood={this.setFood}
+          setAttractions={this.setAttractions}
+        />
       </div>
     )
   }

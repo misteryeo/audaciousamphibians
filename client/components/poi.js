@@ -13,7 +13,7 @@ class POI extends React.Component {
           <input type="text" placeholder="Finish"></input>
           <button onClick={this.requestRoute}>Search</button>
         </div>
-        <div id='poiEntries'>
+        <div>
           {/*}<Link className="search" to="/trippage">Search</Link>*/}
           {
             this.props.markers.map((entry) => {
