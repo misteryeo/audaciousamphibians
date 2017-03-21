@@ -1,5 +1,5 @@
 import React from 'react'
-import { GoogleMap, Marker, withGoogleMap, DirectionsRenderer } from "react-google-maps"
+import { GoogleMap, Marker, withGoogleMap, DirectionsRenderer } from 'react-google-maps'
 
 const DrivingGoogleMap = props => (
   <GoogleMap
