@@ -5,8 +5,8 @@ class POI extends React.Component {
     super(props)
   }
 
-  
-  
+
+
   requestRoute() {
     console.log('Sending search request to Google Maps API')
     /*

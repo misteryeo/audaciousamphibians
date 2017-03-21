@@ -10,18 +10,26 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      start: null,
+      end: null,
       food: false,
       attractions: false
     }
     this.setFilters = this.setFilters.bind(this);
+    this.setRoute = this.setRoute.bind(this);
   }
 
   setFilters(food, attractions) {
-    // alert(food);
-    // alert(attractions);
     this.setState({
       food: food,
       attractions: attractions
+    })
+  }
+
+  setRoute(start, end) {
+    this.setState({
+      start: start,
+      end: end
     })
   }
 
@@ -29,9 +37,8 @@ class App extends React.Component {
     return(
       <div>
         <NavBar />
-        //
-        <Route exact path="/" render={props => (<LandingPage {...props} setFilters={this.setFilters}/>)} />
-        <Route food={this.state.food} attractions={this.state.attractions} path="/trip" component={TripPage}/>
+        <Route exact path="/" render={props => (<LandingPage {...props} setFilters={this.setFilters} setRoute={this.setRoute}/>)} />
+        <Route path="/trip" render={props => (<TripPage {...props} food={this.state.food} attractions={this.state.attractions} start={this.state.start} end={this.state.end}/>)}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/login" component={Login}/>
       </div>

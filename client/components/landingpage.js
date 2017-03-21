@@ -13,7 +13,9 @@ class LandingPage extends React.Component {
     var food = this.refs.food.checked; //value of checkbox
     var attractions = this.refs.attractions.checked; //value of checkbox
     this.props.setFilters(food, attractions);
-  } 
+    this.props.setRoute(this.refs.start.value, this.refs.end.value)
+    this.props.history.push('/trip')
+  }
 
 
   requestRoute() {
@@ -23,8 +25,8 @@ class LandingPage extends React.Component {
   render() {
     return(
       <div id="landingpage">
-        <input className="start" type="text" placeholder="Start"></input>
-        <input className="finish" type="text" placeholder="Finish"></input>
+        <input className="start" id="start" ref="start" type="text" placeholder="Start"></input>
+        <input className="finish" id="end" ref="end" type="text" placeholder="Finish"></input>
         <button className="search" onClick={this.updateFilters}>Search</button>
         <input ref="food" type="checkbox"></input>
         <input ref="attractions" type="checkbox"></input>

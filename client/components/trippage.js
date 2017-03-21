@@ -11,7 +11,7 @@ class TripPage extends React.Component {
     return(
       <div>
         <POI food={this.props.food} attractions={this.props.attractions}/>
-        <MapPage />
+        <MapPage start={this.props.start} end={this.props.end}/>
       </div>
     )
   }
