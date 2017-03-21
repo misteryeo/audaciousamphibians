@@ -46,11 +46,13 @@ class TripPage extends React.Component {
     super(props)
     this.state = {
       food: dummyData,
-      attractions: ''
+      attractions: null,
+      selectedPOI: null
     }
 
     this.setFood = this.setFood.bind(this);
     this.setAttractions = this.setAttractions.bind(this);
+    this.setSelectedPOI = this.setSelectedPOI.bind(this);
   }
 
   setFood (food) {
@@ -65,6 +67,12 @@ class TripPage extends React.Component {
     })
   }
 
+  setSelectedPOI (selected) {
+    this.setState({
+      selectedPOI: selected
+    })
+  }
+
   render() {
     return(
       <div id="trip">
@@ -72,12 +80,14 @@ class TripPage extends React.Component {
           attractions={this.props.attractions} 
           foodMarker={this.state.food} 
           attractionMarker={this.state.attractions}
+          setSelectedPOI={this.setSelectedPOI}
         />
         <MapPage 
           start={this.props.start} 
           end={this.props.end}
           setFood={this.setFood}
           setAttractions={this.setAttractions}
+          setSelectedPOI={this.setSelectedPOI}
         />
       </div>
     )
