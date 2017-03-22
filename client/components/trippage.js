@@ -45,7 +45,7 @@ class TripPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      food: dummyData,
+      food: [],
       attractions: [],
       selectedPOI: null
     }
