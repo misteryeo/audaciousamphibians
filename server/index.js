@@ -266,23 +266,23 @@ app.route('/users/:user_id/trips/:trip_id/places')
     var radius = req.body.radius;
     var coords = req.body.coords;
     request({
-      url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
+      url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + coords + '&radius=' + radius + '&key=AIzaSyDDIM1VDHvleJBp4Q5y9vFx8jd6wU8j4pE',
       method: 'GET',
-      useQuerystring: true,
-      qs: {
-        key: 'AIzaSyDDIM1VDHvleJBp4Q5y9vFx8jd6wU8j4pE',
-        location: coords, 
-        radius: radius
+      // useQuerystring: true,
+      // qs: {
+      //   key: 'AIzaSyDDIM1VDHvleJBp4Q5y9vFx8jd6wU8j4pE',
+      //   location: coords, 
+      //   radius: radius
+      // },
       },
       function(error, response, body) {
         if(error) {
           console.error('Server Error', error);
         } else {
           console.log('Success', response.statusCode, body);
-          res.statusCode(201).send(response.body.results);
+          res.status(201).end(body);
         }
-      }
-    })
+    });
 
   });
 
@@ -290,6 +290,6 @@ app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '../index.html'))
 })
 
-app.listen(3000, function() {
+app.listen(3306, function() {
   console.log('listening on port 3000!');
 });
