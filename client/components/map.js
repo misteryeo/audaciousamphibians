@@ -121,7 +121,6 @@ class MapPage extends React.Component {
       success: (data) => {
         console.log('Client Get Food Success', JSON.parse(data).results);
         food = food.concat(JSON.parse(data).results);
-        console.log('This is food', food);
         this.props.setFood(food);
       },
       error: (error) => {
@@ -197,8 +196,6 @@ class MapPage extends React.Component {
     axios.all([getPark(), getCampground(), getAmusementPark(), getMuseum()])
       .then(axios.spread(function (acct, perms) {
         // Both requests are now complete
-        console.log('acct', acct);
-        console.log('perms', perms);
         context.props.setAttractions(attractions);
       }));
 
