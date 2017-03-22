@@ -265,23 +265,25 @@ app.route('/users/:user_id/trips/:trip_id/places')
   app.post('/places', function(req, res) {
     var radius = req.body.radius;
     var coords = req.body.coords;
+    var type = req.body.type;
     request({
-      url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + coords + '&radius=' + radius + '&key=AIzaSyDDIM1VDHvleJBp4Q5y9vFx8jd6wU8j4pE',
+      url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
       method: 'GET',
       // useQuerystring: true,
-      // qs: {
-      //   key: 'AIzaSyDDIM1VDHvleJBp4Q5y9vFx8jd6wU8j4pE',
-      //   location: coords, 
-      //   radius: radius
-      // },
+      qs: {
+        key: 'AIzaSyDDIM1VDHvleJBp4Q5y9vFx8jd6wU8j4pE',
+        location: coords, 
+        radius: radius,
+        type: type
       },
-      function(error, response, body) {
-        if(error) {
-          console.error('Server Error', error);
-        } else {
-          console.log('Success', response.statusCode, body);
-          res.status(201).end(body);
-        }
+    },
+    function(error, response, body) {
+      if(error) {
+        console.error('Server Error', error);
+      } else {
+        console.log('Successful!', response.statusCode, body);
+        res.status(201).end(body);
+      }
     });
 
   });
@@ -291,5 +293,5 @@ app.get('*', function (req, res) {
 })
 
 app.listen(3306, function() {
-  console.log('listening on port 3000!');
+  console.log('listening on port 3306!');
 });
