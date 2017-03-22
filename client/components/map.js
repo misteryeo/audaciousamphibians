@@ -14,6 +14,24 @@ class MapPage extends React.Component {
     this.getPlaces = this.getPlaces.bind(this);
   }
 
+  componentDidMount() {
+    const directionsService = new google.maps.DirectionsService
+    directionsService.route({
+      origin: this.props.start,
+      destination: this.props.end,
+      travelMode: google.maps.TravelMode.DRIVING,
+    }, (result, status) => {
+      if (status === google.maps.DirectionsStatus.OK) {
+        this.setState({
+          directions: result,
+        });
+      } else {
+        console.error(`error fetching directions ${result}`);
+      }
+    });
+    this.getMidpoint(this.getPlaces);
+  }
+
   // https://developers.google.com/maps/documentation/javascript/examples/directions-simple
 
   getMidpoint(cb) {
@@ -91,14 +109,14 @@ class MapPage extends React.Component {
     var food = [];
     var attractions = [];
     $.ajax({
-      url: 'http://localhost:3000/places',
+      url: '/places',
       method: 'POST',
       data: {
         radius: this.state.radius,
         coords: this.state.midpoint.lat + ',' + this.state.midpoint.lng
       },
       success: (data) => {
-        console.log('Success', JSON.parse(data));
+        console.log('Client Success', JSON.parse(data));
       },
       error: (error) => {
         console.error('Client Error', error);
@@ -106,23 +124,7 @@ class MapPage extends React.Component {
     })
   }
 
-  componentDidMount() {
-    const directionsService = new google.maps.DirectionsService
-    directionsService.route({
-      origin: this.props.start,
-      destination: this.props.end,
-      travelMode: google.maps.TravelMode.DRIVING,
-    }, (result, status) => {
-      if (status === google.maps.DirectionsStatus.OK) {
-        this.setState({
-          directions: result,
-        });
-      } else {
-        console.error(`error fetching directions ${result}`);
-      }
-    });
-    this.getMidpoint(this.getPlaces);
-  }
+
 
   render() {
     return(
@@ -142,21 +144,14 @@ export default MapPage
 
 
 
-// amusement_park
-// aquarium
-// art_gallery
-// bowling_alley
-// casino
-// museum
-// night_club
-// stadium
-// zoo
 
-// bakery
+// park
+// campground
+// museum
+// amusement_park
+
 // bar
 // cafe
-// food
-// meal_takeaway
 // restaurant
 
 
