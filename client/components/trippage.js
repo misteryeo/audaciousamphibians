@@ -46,7 +46,7 @@ class TripPage extends React.Component {
     super(props)
     this.state = {
       food: dummyData,
-      attractions: null,
+      attractions: [],
       selectedPOI: null
     }
 
@@ -79,7 +79,7 @@ class TripPage extends React.Component {
         <POI food={this.props.food} 
           attractions={this.props.attractions} 
           foodMarker={this.state.food} 
-          attractionMarker={this.state.attractions}
+          attractionsMarker={this.state.attractions}
           setSelectedPOI={this.setSelectedPOI}
         />
         <MapPage 

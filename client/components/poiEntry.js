@@ -9,7 +9,7 @@ const POIEntry = (props) => (
 	    </div>
 	  </div>
     <div className='clear'></div>
-    <div><button>Add To Trip</button></div>
+    { props.selectedTab === 0 ? <div><button>Add To Trip</button></div> : <div><button>Remove From Trip</button></div> }
   </div>
 )
 
