@@ -122,7 +122,7 @@ class MapPage extends React.Component {
         console.log('Client Get Food Success', JSON.parse(data).results);
         food = food.concat(JSON.parse(data).results);
         console.log('This is food', food);
-        // this.props.setFood(food);
+        this.props.setFood(food);
       },
       error: (error) => {
         console.error('Client Error', error);
@@ -199,8 +199,7 @@ class MapPage extends React.Component {
         // Both requests are now complete
         console.log('acct', acct);
         console.log('perms', perms);
-        console.log('attractions array', attractions);
-        // context.props.setAttractions(attractions);
+        context.props.setAttractions(attractions);
       }));
 
   }

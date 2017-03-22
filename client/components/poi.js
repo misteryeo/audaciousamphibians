@@ -14,6 +14,12 @@ class POI extends React.Component {
     this.deletePOI = this.deletePOI.bind(this);
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({
+      allPOIs: props.foodMarker.concat(props.attractionsMarker)
+    })
+  }
+
   setTab(tab) {
     this.setState({
       selectedTab: tab
