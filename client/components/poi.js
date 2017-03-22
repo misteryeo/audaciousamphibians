@@ -10,11 +10,29 @@ class POI extends React.Component {
       allPOIs: this.props.foodMarker.concat(this.props.attractionsMarker)
     }
     this.setTab = this.setTab.bind(this);
+    this.addPOI = this.addPOI.bind(this);
+    this.deletePOI = this.deletePOI.bind(this);
   }
 
   setTab(tab) {
     this.setState({
       selectedTab: tab
+    })
+  }
+
+  addPOI (poi) {
+    this.setState({
+      selectedPOIs: [...this.state.selectedPOIs, poi]
+    })
+  }
+
+  deletePOI (poi) {
+    let index = this.state.selectedPOIs.findIndex(place => place.place_id === poi.place_id)
+    this.setState({
+      selectedPOIs: [
+      ...this.state.selectedPOIs.slice(0,index),
+      ...this.state.selectedPOIs.slice(index + 1)
+      ]
     })
   }
 
@@ -25,6 +43,7 @@ class POI extends React.Component {
                   key={entry.place_id} 
                   setSelectedPOI={this.props.setSelectedPOI}
                   selectedTab={this.state.selectedTab}
+                  addPOI={this.addPOI}
                 />)
       })
     } else {
@@ -33,6 +52,7 @@ class POI extends React.Component {
                   key={entry.place_id} 
                   setSelectedPOI={this.props.setSelectedPOI}
                   selectedTab={this.state.selectedTab}
+                  deletePOI={this.deletePOI}
                 />)
       })
     }

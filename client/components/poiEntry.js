@@ -9,7 +9,9 @@ const POIEntry = (props) => (
 	    </div>
 	  </div>
     <div className='clear'></div>
-    { props.selectedTab === 0 ? <div><button>Add To Trip</button></div> : <div><button>Remove From Trip</button></div> }
+    { props.selectedTab === 0 ? 
+    	<div><button onClick={props.addPOI.bind(null, props)}>Add To Trip</button></div> 
+    	: <div><button onClick={props.deletePOI.bind(null, props)}>Remove From Trip</button></div> }
   </div>
 )
 
