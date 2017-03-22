@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path')
 var crypto = require('crypto');
+var request = require('request');
 var db = require('../mysql/index.js');
 
 var app = express();
@@ -259,6 +260,30 @@ app.route('/users/:user_id/trips/:trip_id/places')
         res.send('deleted place from trip');
       }
     });
+  });
+
+  app.post('/places', function(req, res) {
+    var radius = req.body.radius;
+    var coords = req.body.coords;
+    request({
+      url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
+      method: 'GET',
+      useQuerystring: true,
+      qs: {
+        key: 'AIzaSyDDIM1VDHvleJBp4Q5y9vFx8jd6wU8j4pE',
+        location: coords, 
+        radius: radius
+      },
+      function(error, response, body) {
+        if(error) {
+          console.error('Server Error', error);
+        } else {
+          console.log('Success', response.statusCode, body);
+          res.statusCode(201).send(response.body.results);
+        }
+      }
+    })
+
   });
 
 app.get('*', function (req, res) {
