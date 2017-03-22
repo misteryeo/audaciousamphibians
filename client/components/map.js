@@ -1,6 +1,7 @@
 import React from 'react'
 import DrivingGoogleMap from './googleMap'
 import $ from 'jQuery'
+import axios from 'axios'
 
 
 class MapPage extends React.Component {
@@ -11,7 +12,8 @@ class MapPage extends React.Component {
       midpoint: null,
       radius: null
     }
-    this.getPlaces = this.getPlaces.bind(this);
+    this.getFood = this.getFood.bind(this);
+    this.getAttractions = this.getAttractions.bind(this);
   }
 
   componentDidMount() {
@@ -29,12 +31,12 @@ class MapPage extends React.Component {
         console.error(`error fetching directions ${result}`);
       }
     });
-    this.getMidpoint(this.getPlaces);
+    this.getMidpoint(this.getFood,this.getAttractions);
   }
 
   // https://developers.google.com/maps/documentation/javascript/examples/directions-simple
 
-  getMidpoint(cb) {
+  getMidpoint(cb1, cb2) {
     var start = this.props.start;
     var end = this.props.end;
     var startCoords = {}; 
@@ -75,7 +77,8 @@ class MapPage extends React.Component {
             this.setState({
               radius: radiusM
             })
-            cb();
+            cb1();
+            cb2();
           },
           error: (error) => {
             console.error('Error', error)
@@ -105,23 +108,101 @@ class MapPage extends React.Component {
       return d;
   }
 
-  getPlaces() {
+  getFood() {
     var food = [];
-    var attractions = [];
     $.ajax({
       url: '/places',
       method: 'POST',
       data: {
         radius: this.state.radius,
-        coords: this.state.midpoint.lat + ',' + this.state.midpoint.lng
+        coords: this.state.midpoint.lat + ',' + this.state.midpoint.lng,
+        type: 'restaurant'
       },
       success: (data) => {
-        console.log('Client Success', JSON.parse(data));
+        console.log('Client Get Food Success', JSON.parse(data).results);
+        food = food.concat(JSON.parse(data).results);
+        console.log('This is food', food);
+        // this.props.setFood(food);
       },
       error: (error) => {
         console.error('Client Error', error);
       }
     })
+  }
+
+  getAttractions() {
+    var attractions = [];
+    var context = this;
+
+    function getPark() {
+      return axios.post('/places', {
+        coords: context.state.midpoint.lat + ',' + context.state.midpoint.lng, 
+        radius: context.state.radius,
+        type: 'park'
+      })
+      .then(function (response) {
+        console.log('Park Response', response);
+        attractions = attractions.concat(response.data.results);
+      })
+      .catch(function (error) {
+        console.log('Park Error', error);
+      });
+    }
+
+    function getCampground() {
+      return axios.post('/places', {
+        coords: context.state.midpoint.lat + ',' + context.state.midpoint.lng, 
+        radius: context.state.radius,
+        type: 'campground'
+      })
+      .then(function (response) {
+        console.log('Campground Response', response);
+        attractions = attractions.concat(response.data.results);
+      })
+      .catch(function (error) {
+        console.log('Campground Error', error);
+      });
+    }
+
+    function getAmusementPark() {
+      return axios.post('/places', {
+        coords: context.state.midpoint.lat + ',' + context.state.midpoint.lng, 
+        radius: context.state.radius,
+        type: 'amusement_park'
+      })
+      .then(function (response) {
+        console.log('Amusement Park Response', response);
+        attractions = attractions.concat(response.data.results);
+      })
+      .catch(function (error) {
+        console.log('Amusement Park Error', error);
+      });
+    }
+
+    function getMuseum() {
+      return axios.post('/places', {
+        coords: context.state.midpoint.lat + ',' + context.state.midpoint.lng, 
+        radius: context.state.radius,
+        type: 'museum'
+      })
+      .then(function (response) {
+        console.log('Museum Response', response);
+        attractions = attractions.concat(response.data.results);
+      })
+      .catch(function (error) {
+        console.log('Museum Error', error);
+      });
+    }
+
+    axios.all([getPark(), getCampground(), getAmusementPark(), getMuseum()])
+      .then(axios.spread(function (acct, perms) {
+        // Both requests are now complete
+        console.log('acct', acct);
+        console.log('perms', perms);
+        console.log('attractions array', attractions);
+        // context.props.setAttractions(attractions);
+      }));
+
   }
 
 
