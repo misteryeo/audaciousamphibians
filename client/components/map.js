@@ -15,23 +15,6 @@ class MapPage extends React.Component {
   }
 
   // https://developers.google.com/maps/documentation/javascript/examples/directions-simple
-  componentDidMount() {
-    const directionsService = new google.maps.DirectionsService
-    directionsService.route({
-      origin: this.props.start,
-      destination: this.props.end,
-      travelMode: google.maps.TravelMode.DRIVING,
-    }, (result, status) => {
-      if (status === google.maps.DirectionsStatus.OK) {
-        this.setState({
-          directions: result,
-        });
-      } else {
-        console.error(`error fetching directions ${result}`);
-      }
-    });
-    this.getMidpoint(this.getPlaces);
-  }
 
   getMidpoint(cb) {
     var start = this.props.start;
@@ -115,7 +98,7 @@ class MapPage extends React.Component {
         coords: this.state.midpoint.lat + ',' + this.state.midpoint.lng
       },
       success: (data) => {
-        console.log('Success', data);
+        console.log('Success', JSON.parse(data));
       },
       error: (error) => {
         console.error('Client Error', error);
@@ -123,6 +106,23 @@ class MapPage extends React.Component {
     })
   }
 
+  componentDidMount() {
+    const directionsService = new google.maps.DirectionsService
+    directionsService.route({
+      origin: this.props.start,
+      destination: this.props.end,
+      travelMode: google.maps.TravelMode.DRIVING,
+    }, (result, status) => {
+      if (status === google.maps.DirectionsStatus.OK) {
+        this.setState({
+          directions: result,
+        });
+      } else {
+        console.error(`error fetching directions ${result}`);
+      }
+    });
+    this.getMidpoint(this.getPlaces);
+  }
 
   render() {
     return(
