@@ -17,11 +17,6 @@ class LandingPage extends React.Component {
     this.props.history.push('/trip')
   }
 
-
-  requestRoute() {
-   console.log('Sending search request to Google Maps API')
-  }
-
   render() {
     return(
       <div id="landingpage">
@@ -40,4 +35,3 @@ class LandingPage extends React.Component {
 }
 
 export default LandingPage
- 
