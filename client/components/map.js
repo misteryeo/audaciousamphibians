@@ -215,7 +215,8 @@ class MapPage extends React.Component {
           context.setAttractionsMarkers(collection)
           context.props.setAttractions(collection);
         }, 1000)
-      }));
+      }))
+      .catch(err => console.log(err);)
 
   }
 
