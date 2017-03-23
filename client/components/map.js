@@ -107,7 +107,7 @@ class MapPage extends React.Component {
             })
             var radiusKm = this.calcRadius(startCoords.lat, startCoords.lng, this.state.midpoint.lat, this.state.midpoint.lng);
             var radiusM = radiusKm * 1000;
-            //console.log('radiusM', radiusM);
+            console.log('radiusM', radiusM);
             this.setState({
               radius: radiusM
             })
@@ -216,7 +216,7 @@ class MapPage extends React.Component {
           context.props.setAttractions(collection);
         }, 1000)
       }))
-      .catch(err => console.log(err);)
+      .catch(err => console.log(err))
 
   }
 
