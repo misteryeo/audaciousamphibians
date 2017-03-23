@@ -3,17 +3,51 @@ import DrivingGoogleMap from './googleMap'
 import $ from 'jQuery'
 import axios from 'axios'
 
-
 class MapPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       directions: null,
+      foodMarkers: [],
+      attractionsMarker: [],
       midpoint: null,
       radius: null
     }
     this.getFood = this.getFood.bind(this);
     this.getAttractions = this.getAttractions.bind(this);
+    this.setFoodMarkers = this.setFoodMarkers.bind(this)
+    this.setAttractionsMarkers = this.setAttractionsMarkers.bind(this)
+  }
+
+  latlong() {
+    return this.state.midpoint.lat + ',' + this.state.midpoint.lng
+  }
+
+  allMarkers() {
+    return this.state.foodMarkers.concat(this.state.attractionsMarker)
+  }
+
+  setFoodMarkers(food) {
+    this.setState({
+      foodMarkers: this.mapToMarkers(food)
+    })
+  }
+
+  setAttractionsMarkers(attr) {
+    this.setState({
+      attractionsMarker: this.mapToMarkers(attr)
+    })
+  }
+
+  mapToMarkers(places) { // array of objects
+    if (!places) return
+    return places.reduce((acc, place) => {
+      let marker = {}
+      marker.position = new google.maps.LatLng(place.geometry.location.lat, place.geometry.location.lng)
+      marker.place = {location: marker.position, placeId: place.place_id}
+      acc.push(marker)
+      return acc
+    }, [])
   }
 
   componentDidMount() {
@@ -39,7 +73,7 @@ class MapPage extends React.Component {
   getMidpoint(cb1, cb2) {
     var start = this.props.start;
     var end = this.props.end;
-    var startCoords = {}; 
+    var startCoords = {};
     var endCoords = {};
     $.ajax({
       url: 'https://maps.googleapis.com/maps/api/geocode/json',
@@ -49,7 +83,7 @@ class MapPage extends React.Component {
         key: 'AIzaSyDDIM1VDHvleJBp4Q5y9vFx8jd6wU8j4pE'
       },
       success: (data) => {
-        console.log('Success', data)
+        //console.log('Success', data)
         startCoords = data.results[0].geometry.location;
         $.ajax({
           url: 'https://maps.googleapis.com/maps/api/geocode/json',
@@ -59,12 +93,12 @@ class MapPage extends React.Component {
             key: 'AIzaSyDDIM1VDHvleJBp4Q5y9vFx8jd6wU8j4pE'
           },
           success: (data) => {
-            console.log('Success', data)
+            //console.log('Success', data)
             endCoords = data.results[0].geometry.location;
             var midLat = (startCoords.lat + endCoords.lat) / 2;
-            console.log('midLat', midLat);
+            //console.log('midLat', midLat);
             var midLong = (startCoords.lng + endCoords.lng) / 2;
-            console.log('midLong', midLong);
+            //console.log('midLong', midLong);
             this.setState({
               midpoint: {
                 lat: midLat,
@@ -73,7 +107,7 @@ class MapPage extends React.Component {
             })
             var radiusKm = this.calcRadius(startCoords.lat, startCoords.lng, this.state.midpoint.lat, this.state.midpoint.lng);
             var radiusM = radiusKm * 1000;
-            console.log('radiusM', radiusM);
+            //console.log('radiusM', radiusM);
             this.setState({
               radius: radiusM
             })
@@ -97,13 +131,13 @@ class MapPage extends React.Component {
     }
       var R = 6371; // Radius of the earth in km
       var dLat = deg2rad(lat2-lat1);  // deg2rad below
-      var dLon = deg2rad(lon2-lon1); 
-      var a = 
+      var dLon = deg2rad(lon2-lon1);
+      var a =
         Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
         Math.sin(dLon/2) * Math.sin(dLon/2)
-        ; 
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        ;
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
       var d = R * c; // Distance in km
       return d;
   }
@@ -115,93 +149,75 @@ class MapPage extends React.Component {
       method: 'POST',
       data: {
         radius: this.state.radius,
-        coords: this.state.midpoint.lat + ',' + this.state.midpoint.lng,
+        coords: this.latlong(),
         type: 'restaurant'
       },
       success: (data) => {
-        console.log('Client Get Food Success', JSON.parse(data).results);
-        food = food.concat(JSON.parse(data).results);
+        //console.log('Client Get Food Success', JSON.parse(data).results);
+        food = JSON.parse(data).results
+        this.setFoodMarkers(food)
         this.props.setFood(food);
       },
       error: (error) => {
-        console.error('Client Error', error);
+        //console.error('Client Error', error);
       }
     })
   }
 
   getAttractions() {
-    var attractions = [];
     var context = this;
 
     function getPark() {
       return axios.post('/places', {
-        coords: context.state.midpoint.lat + ',' + context.state.midpoint.lng, 
+        coords: context.latlong(),
         radius: context.state.radius,
         type: 'park'
       })
-      .then(function (response) {
-        console.log('Park Response', response);
-        attractions = attractions.concat(response.data.results);
-      })
-      .catch(function (error) {
-        console.log('Park Error', error);
-      });
     }
 
     function getCampground() {
       return axios.post('/places', {
-        coords: context.state.midpoint.lat + ',' + context.state.midpoint.lng, 
+        coords: context.latlong(),
         radius: context.state.radius,
         type: 'campground'
       })
-      .then(function (response) {
-        console.log('Campground Response', response);
-        attractions = attractions.concat(response.data.results);
-      })
-      .catch(function (error) {
-        console.log('Campground Error', error);
-      });
     }
 
     function getAmusementPark() {
       return axios.post('/places', {
-        coords: context.state.midpoint.lat + ',' + context.state.midpoint.lng, 
+        coords: context.latlong(),
         radius: context.state.radius,
         type: 'amusement_park'
       })
-      .then(function (response) {
-        console.log('Amusement Park Response', response);
-        attractions = attractions.concat(response.data.results);
-      })
-      .catch(function (error) {
-        console.log('Amusement Park Error', error);
-      });
     }
 
     function getMuseum() {
       return axios.post('/places', {
-        coords: context.state.midpoint.lat + ',' + context.state.midpoint.lng, 
+        coords: context.latlong(),
         radius: context.state.radius,
         type: 'museum'
       })
-      .then(function (response) {
-        console.log('Museum Response', response);
-        attractions = attractions.concat(response.data.results);
-      })
-      .catch(function (error) {
-        console.log('Museum Error', error);
-      });
     }
 
     axios.all([getPark(), getCampground(), getAmusementPark(), getMuseum()])
-      .then(axios.spread(function (acct, perms) {
-        // Both requests are now complete
-        context.props.setAttractions(attractions);
+      .then(axios.spread(function (parks, campgrounds, amusements, museums) {
+        let collection = []
+        let memo = {}
+        setTimeout(() => {
+          [parks, campgrounds, amusements, museums].forEach(el => {
+            el.data.results.forEach(place => {
+              if (!memo[place.place_id]) {
+                memo[place.place_id] = true
+                collection.push(place)
+              }
+            })
+          })
+          context.setAttractionsMarkers(collection)
+          context.props.setAttractions(collection);
+        }, 1000)
       }));
 
   }
-
-
 
   render() {
     return(
@@ -210,6 +226,7 @@ class MapPage extends React.Component {
           containerElement={<div style={{height: `100%`}}/>}
           mapElement={<div style={{height: `100%`}}/>}
           directions={this.state.directions}
+          markers={this.allMarkers()}
           >
           </DrivingGoogleMap>
       </div>
@@ -230,6 +247,3 @@ export default MapPage
 // bar
 // cafe
 // restaurant
-
-
-
