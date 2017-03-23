@@ -24,7 +24,10 @@ class TripPage extends React.Component {
 
   setAttractions (attractions) {
     this.setState({
-      attractions: attractions
+      attractions: [
+        ...this.state.attractions,
+        ...attractions
+      ]
     })
   }
 
@@ -37,14 +40,14 @@ class TripPage extends React.Component {
   render() {
     return(
       <div id="trip">
-        <POI food={this.props.food} 
-          attractions={this.props.attractions} 
-          foodMarker={this.state.food} 
+        <POI food={this.props.food}
+          attractions={this.props.attractions}
+          foodMarker={this.state.food}
           attractionsMarker={this.state.attractions}
           setSelectedPOI={this.setSelectedPOI}
         />
-        <MapPage 
-          start={this.props.start} 
+        <MapPage
+          start={this.props.start}
           end={this.props.end}
           setFood={this.setFood}
           setAttractions={this.setAttractions}
