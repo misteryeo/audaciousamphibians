@@ -266,11 +266,11 @@ app.route('/users/:user_id/trips/:trip_id/places')
     var radius = req.body.radius;
     var coords = req.body.coords;
     var type = req.body.type;
- 
+
     axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', {
       params: {
         key: 'AIzaSyDDIM1VDHvleJBp4Q5y9vFx8jd6wU8j4pE',
-        location: coords, 
+        location: coords,
         radius: radius,
         type: type
       }
@@ -289,5 +289,5 @@ app.get('*', function (req, res) {
 })
 
 app.listen(3000, function() {
-  console.log('listening on port 3306!');
+  console.log('listening on port 3000!');
 });
