@@ -10,24 +10,8 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// TODO: point to build file
-// app.use(express.static(__dirname + '/../index.html'));
-app.use(express.static(__dirname + '/../build'));
+app.use(express.static(path.resolve(__dirname, '../public')));
 
-
-// sample data from query to /login:
-// [
-//   {
-//     "id": 1,
-//     "username": "keith123",
-//     "password": "ilovekeith",
-//     "salt": 456,
-//     "email": "keith@email.com"
-//   }
-// ]
-
-
-// checks username & pw in db to authenticate
 app.post('/login', function(req, res) {
   var username = req.body.username;
   var pw = req.body.password;
@@ -240,12 +224,6 @@ app.route('/users/:user_id/trips/:trip_id/places')
     });
 
   });
-  // PUT not needed
-  // .put(function(req, res) {
-
-  // })
-
-
 
   // DELETE a place from a trip
   app.delete('/users/:user_id/trips/:trip_id/places/:place_id', function(req, res) {
@@ -285,9 +263,10 @@ app.route('/users/:user_id/trips/:trip_id/places')
   });
 
 app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../index.html'))
+  res.sendFile(path.resolve(__dirname, '../public/index.html'))
 })
 
-app.listen(3000, function() {
-  console.log('listening on port 3000!');
+var port = process.env.PORT || 3000
+app.listen(port, function() {
+  console.log(`listening on port ${port}!`);
 });
