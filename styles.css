@@ -1,0 +1,151 @@
+/*http://www.color-hex.com/color-palette/34099*/
+
+body {
+  background: url(http://i.imgur.com/0iCOEgX.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+h1 {
+  color: #f3f4f9;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 90px;
+  padding-left: 30px;
+  margin: 0;
+}
+
+a:visited {
+  color: white;
+}
+
+#app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#trip {
+  height: 800px;
+  min-height: 500px;
+  width: 100%;
+}
+
+#map {
+  margin: 0;
+  float: right;
+  width: 70%;
+  height: 100%;
+}
+
+#poi {
+  margin: 0;
+  float: left;
+  width: 30%;
+  height: 100%;
+  overflow-y: scroll;
+  background-color: #fff;
+}
+
+div #landingpage {
+  width: 500px;
+  height: 150px;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 11px;
+}
+
+.searchinput{
+  width: 300px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  position: relative;
+  border-radius: 5px;
+  border-width: 1px;
+  width: 500px;
+  height: 55px;
+  padding: 0px;
+  margin: 10px auto 50px;
+  overflow: hidden;
+}
+
+.start{
+  margin-bottom:50px;
+}
+
+.finish{
+  margin-bottom:50px;
+}
+
+.checkbox{
+  width: 100px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  position: relative;
+  border-radius: 5px;
+  border-width: 1px;
+  width: 500px;
+  height: 35px;
+  padding: 1px;
+  margin: 10px auto 50px;
+  overflow: hidden;
+}
+
+input {
+  font-size: 20px;
+  width: 100px;
+  position: relative;
+  padding: 4px;
+}
+
+/*BUTTON STYLES*/
+
+.myButton {
+  -moz-box-shadow:inset 1px 1px 0px 0px #97c4fe;
+  -webkit-box-shadow:inset 1px 1px 0px 0px #97c4fe;
+  box-shadow:inset 1px 1px 0px 0px #97c4fe;
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0));
+  background:-moz-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+  background:-webkit-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+  background:-o-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+  background:-ms-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+  background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0',GradientType=0);
+  background-color:#3d94f6;
+  -moz-border-radius:12px;
+  -webkit-border-radius:12px;
+  border-radius:12px;
+  border:1px solid #337fed;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-family:Trebuchet MS;
+  font-size:18px;
+  font-weight:bold;
+  padding:4px 20px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #1570cd;
+}
+.myButton:hover {
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6));
+  background:-moz-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+  background:-webkit-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+  background:-o-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+  background:-ms-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+  background:linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6',GradientType=0);
+  background-color:#1e62d0;
+}
+.myButton:active {
+  position:relative;
+  top:1px;
+}
