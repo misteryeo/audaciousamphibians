@@ -1,6 +1,5 @@
 import React from 'react'
 import DrivingGoogleMap from './googleMap'
-import $ from 'jQuery'
 import axios from 'axios'
 
 class MapPage extends React.Component {

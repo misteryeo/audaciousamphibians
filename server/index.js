@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path')
 var crypto = require('crypto');
-var request = require('request');
+var axios = require('axios');
 var db = require('../mysql/index.js');
 
 var app = express();
@@ -266,32 +266,28 @@ app.route('/users/:user_id/trips/:trip_id/places')
     var radius = req.body.radius;
     var coords = req.body.coords;
     var type = req.body.type;
-    request({
-      url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
-      method: 'GET',
-      // useQuerystring: true,
-      qs: {
+ 
+    axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', {
+      params: {
         key: 'AIzaSyDDIM1VDHvleJBp4Q5y9vFx8jd6wU8j4pE',
         location: coords, 
         radius: radius,
         type: type
-      },
-    },
-    function(error, response, body) {
-      if(error) {
-        console.error('Server Error', error);
-      } else {
-        console.log('Successful!', response.statusCode, body);
-        res.status(201).end(body);
       }
+    })
+    .then(function (response) {
+      //console.log('Successful!', response.data);
+      res.status(201).send(response.data);
+    })
+    .catch(function (error) {
+      console.error('Server Error', error);
     });
-
   });
 
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '../index.html'))
 })
 
-app.listen(3306, function() {
+app.listen(3000, function() {
   console.log('listening on port 3306!');
 });
