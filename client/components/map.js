@@ -9,12 +9,12 @@ class MapPage extends React.Component {
       directions: null,
       foodMarkers: [],
       attractionsMarker: [],
-      midpoint: null,
-      radius: null
     }
     this.setFoodMarkers = this.setFoodMarkers.bind(this)
     this.setAttractionsMarkers = this.setAttractionsMarkers.bind(this)
     this.findAllPlacesAlongRoute = this.findAllPlacesAlongRoute.bind(this)
+    this.fetchFoodPlaces - this.fetchFoodPlaces.bind(this)
+    this.fetchAttractionPlaces = this.fetchAttractionPlaces.bind(this)
   }
 
   latlong() {
@@ -27,12 +27,16 @@ class MapPage extends React.Component {
 
   setFoodMarkers(food) {
     this.setState({
-      foodMarkers: this.mapToMarkers(food)
+      foodMarkers: [
+        ...this.state.foodMarkers,
+        ...this.mapToMarkers(food)
+      ]
     })
   }
 
   setAttractionsMarkers(attr) {
     this.setState({
+      //attractionsMarker: this.mapToMarkers(attr)
       attractionsMarker: [
         ...this.state.attractionsMarker,
         ...this.mapToMarkers(attr)
@@ -52,6 +56,10 @@ class MapPage extends React.Component {
   }
 
   componentDidMount() {
+    this.findDirections()
+  }
+
+  findDirections() {
     const directionsService = new google.maps.DirectionsService
     directionsService.route({
       origin: this.props.start,
@@ -59,62 +67,91 @@ class MapPage extends React.Component {
       travelMode: google.maps.TravelMode.DRIVING,
     }, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
-        this.findAllPlacesAlongRoute(result)
+        this.setState({
+          directions: result
+        }, this.findAllPlacesAlongRoute)
       } else {
         console.error(`error fetching directions ${result}`);
       }
     });
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.start !== prevProps.start ||
+        this.props.end !== prevProps.end ||
+        this.props.food !== prevProps.food ||
+        this.props.attractions !== prevProps.attractions
+       ) {
+      this.setState({
+        directions: null,
+        foodMarkers: [],
+        attractionsMarker: []
+      }, this.findDirections)
+    }
+  }
+
   // Docs - https://developers.google.com/maps/documentation/javascript/directions#DirectionsResults
-  findAllPlacesAlongRoute(directions) {
-    let context = this
+  findAllPlacesAlongRoute() {
     let memo = {}
-    this.setState({
-      directions: directions,
-    });
-    directions.routes.forEach(route => {
+    this.state.directions.routes.forEach(route => {
       route.legs.forEach(leg => {
         leg.steps.forEach(step => {
-          // get midpoint from start_location (step start) to end_location (start of next step)
           let lat = (step.start_location.lat() + step.end_location.lat()) / 2
           let lng = (step.start_location.lng() + step.end_location.lng()) / 2
-          //let midpoint = new google.maps.LatLng(lat, lng)
           let midpoint = {lat: lat, lng: lng}
-          // get radius from midpoint to end_location
           let radius = this.calcRadius(step.start_location.lat(), step.start_location.lng(), step.end_location.lat(), step.end_location.lng()) * 1000
-          // call api for both categories (food and attractions) on this midpoint and radius
-          this.getPlaces(midpoint, radius, 'restaurant')
-          .then(data => {
-            let food = data.data.results
-            context.setFoodMarkers(food)
-            context.props.setFood(food);
-          })
 
-          axios.all([
-            this.getPlaces(midpoint, radius, 'park'),
-            this.getPlaces(midpoint, radius, 'campground'),
-            this.getPlaces(midpoint, radius, 'amusement_park'),
-            this.getPlaces(midpoint, radius, 'museum')
-          ])
-          .then(axios.spread((parks, campgrounds, amusements, museums) => {
-            let collection = []
-            setTimeout(() => {
-              [parks, campgrounds, amusements, museums].forEach(el => {
-                el.data.results.forEach(place => {
-                  if (!memo[place.place_id]) {
-                    memo[place.place_id] = true
-                    collection.push(place)
-                  }
-                })
-              })
-              context.setAttractionsMarkers(collection)
-              context.props.setAttractions(collection);
-            }, 1000)
-          }))
+          if (this.props.food || (!this.props.food && !this.props.attractions)) {
+            this.fetchFoodPlaces(midpoint, radius, memo)
+          }
+          if (this.props.attractions || (!this.props.food && !this.props.attractions)) {
+            this.fetchAttractionPlaces(midpoint, radius, memo)
+          }
         })
       })
     })
+  }
+
+  fetchFoodPlaces(midpoint, radius, memo) {
+    let context = this
+    this.getPlaces(midpoint, radius, 'restaurant')
+    .then(data => {
+      let foodCollection = []
+      let food = data.data.results
+      food.forEach(f => {
+        if (!memo[f.place_id]) {
+          memo[f.place_id] = true
+          foodCollection.push(f)
+        }
+      })
+      context.setFoodMarkers(foodCollection)
+      context.props.setFood(foodCollection);
+    })
+  }
+
+  fetchAttractionPlaces(midpoint, radius, memo) {
+    let context = this
+    axios.all([
+      this.getPlaces(midpoint, radius, 'park'),
+      this.getPlaces(midpoint, radius, 'campground'),
+      this.getPlaces(midpoint, radius, 'amusement_park'),
+      this.getPlaces(midpoint, radius, 'museum')
+    ])
+    .then(axios.spread((parks, campgrounds, amusements, museums) => {
+      let collection = []
+      setTimeout(() => {
+        [parks, campgrounds, amusements, museums].forEach(el => {
+          el.data.results.forEach(place => {
+            if (!memo[place.place_id]) {
+              memo[place.place_id] = true
+              collection.push(place)
+            }
+          })
+        })
+        context.setAttractionsMarkers(collection)
+        context.props.setAttractions(collection);
+      }, 500)
+    }))
   }
 
   getPlaces(midpoint, radius, type) {
