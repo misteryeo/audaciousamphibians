@@ -10,7 +10,7 @@ class NavBar extends React.Component {
 
   render() {
     return(
-      <div>
+      <div id="navbar">
         <Link className="heading" to="/"><h1>RoadChip</h1></Link>
         <Link className="signup" to="/signup">Sign Up</Link>
         <Link className="login" to="/login">Login</Link>
