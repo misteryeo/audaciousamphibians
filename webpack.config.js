@@ -4,18 +4,11 @@ var webpack = require('webpack');
 module.exports = {
   entry: "./client/index.js",
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'public/build'),
     filename: 'index.js'
   },
   watch: true,
   devtool: "source-map",
-  devServer: {
-    contentBase: path.join(__dirname, "build"),
-    filename: "index.js",
-    compress: true,
-    historyApiFallback: true,
-    watchContentBase: true
-  },
   module: {
     rules: [
       {
@@ -27,18 +20,5 @@ module.exports = {
         }
       }
     ]
-  },
-  resolve: {
-    extensions: [".js", ".jsx"],
-    modules: [
-      "node_modules"
-    ]
-  },
-  target: "web",
-  node: {
-    console: true,
-    fs: "empty",
-    net: "empty",
-    tls: "empty"
   }
 };
