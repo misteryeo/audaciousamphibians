@@ -12,16 +12,17 @@ h1 {
   color: #f3f4f9;
   font-family: 'Permanent Marker', cursive;
   font-size: 90px;
+  width: 60%;
   padding-left: 30px;
-  margin: 0;
+  margin: 0px;
 }
 
 #navbar {
   height: 20%;
 }
 
-#signup #login {
-  float: left;
+#autho {
+  float: right;
   overflow: auto;
 }
 
@@ -79,7 +80,7 @@ div #landingpage {
   border-radius: 5px;
   border-width: 1px;
   height: 35px;
-  padding: 0px;
+  padding: 10px;
   margin: 25px auto 10px;
   overflow: hidden;
 }
