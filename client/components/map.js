@@ -88,6 +88,8 @@ class MapPage extends React.Component {
         foodMarkers: [],
         attractionsMarker: []
       }, this.findDirections)
+    if (this.props.start !== prevProps.start || this.props.end !== prevProps.end) {
+      this.findDirections()
     }
   }
 
