@@ -1,5 +1,6 @@
 import React from 'react'
 import POIEntry from './poiEntry.js'
+import Search from './search.js'
 
 class POI extends React.Component {
   constructor(props) {
@@ -67,11 +68,7 @@ class POI extends React.Component {
   render() {
     return(
       <div id="poi">
-        <div>
-          <input type="text" placeholder="Start"></input>
-          <input type="text" placeholder="Finish"></input>
-          <button>Search</button>
-        </div>
+        <Search setFilters={this.props.setFilters} setRoute={this.props.setRoute} history={this.props.history}/>
         <div>
           <div onClick={this.setTab.bind(null, 1)}>My Places</div>
           <div onClick={this.setTab.bind(null, 0)}>Places</div>

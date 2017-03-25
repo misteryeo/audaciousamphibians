@@ -1,10 +1,12 @@
 import React from 'react'
 import NavBar from './navbar.js'
 import { Link, Route } from 'react-router-dom'
+import { browserHistory } from 'react-router';
 import LandingPage from './landingpage'
 import TripPage from './trippage'
 import Signup from './signup'
 import Login from './login'
+import Search from './search.js'
 
 class App extends React.Component {
   constructor(props) {
@@ -38,7 +40,7 @@ class App extends React.Component {
       <div id="app">
         <NavBar />
         <Route exact path="/" render={props => (<LandingPage {...props} setFilters={this.setFilters} setRoute={this.setRoute}/>)} />
-        <Route path="/trip" render={props => (<TripPage {...props} food={this.state.food} attractions={this.state.attractions} start={this.state.start} end={this.state.end}/>)}/>
+        <Route path="/trip" render={props => (<TripPage {...props} food={this.state.food} attractions={this.state.attractions} start={this.state.start} end={this.state.end} setFilters={this.setFilters} setRoute={this.setRoute}/>)}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/login" component={Login}/>
       </div>
