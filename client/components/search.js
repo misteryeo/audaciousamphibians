@@ -9,6 +9,10 @@ class Search extends React.Component {
   }
 
   setFilters(){
+    this.updateFilters = this.updateFilters.bind(this);
+  }
+
+  updateFilters(){
     // Get the values of the checkboxes (booleans)
     var food = this.refs.food.checked; //value of checkbox
     var attractions = this.refs.attractions.checked; //value of checkbox
@@ -24,6 +28,8 @@ class Search extends React.Component {
         <input className="start" ref="start" type="text" placeholder="Start"></input>
         <input className="finish" ref="end" type="text" placeholder="Finish"></input>
         <button className="myButton" onClick={this.setFilters}>GO</button>
+        <button className="myButton" onClick={this.updateFilters}>GO</button>
+
       </div>
       <div className="checkbox">
         <input ref="food" type="checkbox"></input>Food
@@ -35,4 +41,5 @@ class Search extends React.Component {
 }
 
 export default Search
+
 
