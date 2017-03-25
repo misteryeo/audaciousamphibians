@@ -59,6 +59,11 @@ class TripPage extends React.Component {
           foodMarker={this.state.food}
           attractionsMarker={this.state.attractions}
           setSelectedPOI={this.setSelectedPOI}
+          setFilters={this.props.setFilters} 
+          setRoute={this.props.setRoute} 
+          start={this.props.start}
+          end={this.props.end}
+          history={this.props.history}
         />
         <MapPage
           start={this.props.start}

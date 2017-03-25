@@ -11,7 +11,8 @@ class LandingPage extends React.Component {
   render() {
     return(
       <div id="landingpage">
-        <Search />
+        <Search setFilters={this.props.setFilters} setRoute={this.props.setRoute} history={this.props.history} location={this.props.location}/>
+        }
       </div>
     )
   }
