@@ -26,8 +26,9 @@ class Search extends React.Component {
         <button className="myButton" onClick={this.setFilters}>GO</button>
       </div>
       <div className="checkbox">
-        <input ref="food" type="checkbox"></input>Food
-        <input ref="attractions" type="checkbox"></input>Attractions
+      <span id="checktext">Show me:</span>
+        <input ref="food" type="checkbox" id="checkbox"></input><span id="checktext">Food</span>
+        <input ref="attractions" type="checkbox" id="checkbox"></input><span id="checktext">Attractions</span>
       </div>
       </div>
     )
