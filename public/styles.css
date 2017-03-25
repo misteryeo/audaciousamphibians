@@ -20,6 +20,11 @@ h1 {
   height: 20%;
 }
 
+#signup #login {
+  float: left;
+  overflow: auto;
+}
+
 a:visited {
   color: white;
 }
@@ -54,7 +59,7 @@ a:visited {
 }
 
 div #landingpage {
-  width: 500px;
+  width: 600px;
   height: 150px;
   background-color: white;
   position: absolute;
@@ -67,49 +72,63 @@ div #landingpage {
 }
 
 .searchinput{
-  width: 300px;
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
   position: relative;
   border-radius: 5px;
   border-width: 1px;
-  width: 500px;
-  height: 55px;
+  height: 35px;
   padding: 0px;
-  margin: 10px auto 50px;
+  margin: 25px auto 10px;
   overflow: hidden;
 }
 
 .start{
-  margin-bottom:50px;
+  font-size: 25px;
+  font-family: 'Roboto', sans-serif;
+  margin-bottom:10px;
+  width: 40%;
+  margin-right:5px;
 }
 
 .finish{
-  margin-bottom:50px;
+  font-size: 25px;
+  font-family: 'Roboto', sans-serif;
+  margin-bottom:10px;
+  width: 40%;
+  margin-right: 5px;
 }
 
-.checkbox{
-  width: 100px;
-  text-align: center;
-  vertical-align: middle;
-  white-space: nowrap;
-  position: relative;
-  border-radius: 5px;
-  border-width: 1px;
-  width: 500px;
-  height: 35px;
-  padding: 1px;
-  margin: 10px auto 50px;
-  overflow: hidden;
+
+
+/*CHECKBOX STYLES*/
+#checktext {
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
+  margin-left: 2px;
 }
 
-input {
-  font-size: 20px;
-  width: 100px;
-  position: relative;
-  padding: 4px;
+.checkbox {
+  margin: 15px 0px 0px 120px;
 }
+
+#checkbox {
+  width: 20px;
+  height: 20px;
+  margin-left: 30px;
+  label {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+
+
 
 /*BUTTON STYLES*/
 
