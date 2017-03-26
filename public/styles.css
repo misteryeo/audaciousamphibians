@@ -26,8 +26,9 @@ h1 {
   overflow: auto;
 }
 
-a:visited {
+a {
   color: white;
+  text-decoration: none;
 }
 
 #app {
