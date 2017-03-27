@@ -18,7 +18,7 @@ h1 {
 }
 
 #navbar {
-  height: 20%;
+  height: 20vh;
 }
 
 #autho {
@@ -39,7 +39,7 @@ a {
 }
 
 #trip {
-  height: 600px;
+  height: 80vh;
   min-height: 500px;
   width: 100%;
 }
